@@ -38,6 +38,10 @@ def download_certificate(request, participant_id):
     from django.conf import settings
     bg_path = None
     possible_bg = os.path.join(settings.BASE_DIR, "static", "images", "certificate_bg.png")
+    print("BG PATH:", possible_bg)
+    print("EXISTS?:", os.path.exists(possible_bg))
+
+    
     if os.path.exists(possible_bg):
         bg_path = possible_bg
 
