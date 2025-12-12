@@ -1,0 +1,12 @@
+<h1 style="color:red">CUSTOM TEMPLATE LOADING ✔</h1>
+
+{% extends "admin/change_list.html" %}
+
+{% block object-tools %}
+    <div style="margin-bottom: 10px;">
+        <a href="{% url 'admin:participants-upload-csv' %}" class="button">
+            Upload CSV
+        </a>
+    </div>
+    {{ block.super }}
+{% endblock %}

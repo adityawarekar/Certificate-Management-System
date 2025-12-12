@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head><title>Verify Certificate</title></head>
+<body>
+  <h1>Certificate Verification</h1>
+  <h2>{{ participant.full_name }}</h2>
+  <p>Email: {{ participant.email }}</p>
+  <p>Hackathon: {{ participant.hackathon_name }}</p>
+  <p>Registered on: {{ participant.created_at }}</p>
+
+  <h3>Certificates Issued</h3>
+  {% if certs %}
+    <ul>
+    {% for c in certs %}
+      <li>{{ c.issued_at }} - {% if c.pdf_file %} <a href="{{ c.pdf_file.url }}">Download PDF</a> {% else %} Not available {% endif %}</li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>No certificate issued yet.</p>
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head><title>Lookup</title></head>
+<body>
+  <h1>Find your certificate</h1>
+  <form method="get">
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+
+  {% if participant %}
+    <h2>Found: {{ participant.full_name }}</h2>
+    <p>Email: {{ participant.email }}</p>
+    <p>Hackathon: {{ participant.hackathon_name }}</p>
+    <p><a href="{% url 'certificates:download_certificate' participant.id %}">Download Certificate (PDF)</a></p>
+    <p>Or verify online: <a href="{% url 'certificates:verify_certificate' participant.verify_token %}">Verification Link</a></p>
+  {% elif form.is_bound %}
+    <p>No participant found. Please check details.</p>
+  {% endif %}
+</body>
+</html>
