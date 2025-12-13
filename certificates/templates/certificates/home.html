@@ -1,11 +1,31 @@
-<!doctype html>
-<html>
-<head>
-  <title>Certificate Portal</title>
-</head>
-<body>
-  <h1>Certificate Portal</h1>
-  <p><a href="{% url 'certificates:lookup' %}">Find & Download your certificate</a></p>
-  <p>Admins can upload participants via Django admin.</p>
-</body>
-</html>
+{% extends "certificates/base.html" %}
+{% block title %}TechFusion Certificate Portal{% endblock title %}
+
+{% block content %}
+<div class="text-center bg-white rounded-2xl shadow-xl p-12 animate-fade-in">
+
+    <h1 class="text-5xl font-extrabold mb-6
+               bg-gradient-to-r from-indigo-600 to-violet-600
+               bg-clip-text text-transparent">
+        TechFusion Hackathon 2025
+    </h1>
+
+    <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
+        Securely search, download, and verify your Certificate of Participation
+        using your registered details.
+    </p>
+
+    <a href="{% url 'certificates:lookup' %}"
+       class="inline-flex items-center gap-2 px-10 py-4 rounded-full
+              bg-gradient-to-r from-indigo-600 to-violet-600
+              text-white font-semibold shadow-lg
+              hover:scale-105 hover:shadow-xl
+              transition-all duration-300">
+        🚀 Find My Certificate
+    </a>
+
+    <p class="mt-10 text-sm text-gray-400">
+        Fast • Secure • Verified
+    </p>
+</div>
+{% endblock content %}

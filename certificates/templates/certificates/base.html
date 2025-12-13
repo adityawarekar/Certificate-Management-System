@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Certificate Portal{% endblock title %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 0.6s ease-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-50 via-white to-sky-50 min-h-screen flex flex-col">
+
+    
+    <header class="bg-white/80 backdrop-blur-md border-b border-indigo-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="{% url 'certificates:home' %}"
+               class="text-2xl font-extrabold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+                CertifyHub
+            </a>
+
+            <a href="{% url 'certificates:lookup' %}"
+               class="text-sm font-semibold text-indigo-600 hover:text-violet-600 transition">
+                Get Certificate →
+            </a>
+        </div>
+    </header>
+
+    
+    <main class="flex-grow">
+        <div class="max-w-4xl mx-auto py-14 px-6">
+            {% block content %}{% endblock content %}
+        </div>
+    </main>
+
+    
+    <footer class="text-center text-sm text-gray-500 py-6">
+        © 2025 TechFusion Hackathon · Certificate Portal
+    </footer>
+
+</body>
+</html>

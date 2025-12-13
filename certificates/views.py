@@ -3,6 +3,7 @@ from .forms import LookupForm
 from .models import Participant, Certificate
 from django.http import HttpResponse
 from django.urls import reverse
+from datetime import date
 from .utils import generate_certificate_pdf
 from django.core.files.base import ContentFile
 import os
@@ -31,7 +32,10 @@ def download_certificate(request, participant_id):
    
     participant = get_object_or_404(Participant, id=participant_id)
    
-    verify_url = request.build_absolute_uri(reverse("certificates:verify_certificate", args=[participant.verify_token]))
+    verify_url = f"http://10.12.227.204:8000/verify/{participant.verify_token}/"
+
+
+
 
     
 
@@ -60,8 +64,19 @@ def download_certificate(request, participant_id):
 
 
 def verify_certificate(request, token):
-   
-    participant = get_object_or_404(Participant, verify_token=token)
 
+    participant = get_object_or_404(Participant, verify_token=token)
     certs = participant.certificates.all()
-    return render(request, "certificates/verify.html", {"participant": participant, "certs": certs})
+
+    # Fixed issue date
+    issue_date = date(2025, 12, 10)
+
+    return render(
+        request,
+        "certificates/verify.html",
+        {
+            "participant": participant,
+            "certs": certs,
+            "issue_date": issue_date,
+        }
+    )

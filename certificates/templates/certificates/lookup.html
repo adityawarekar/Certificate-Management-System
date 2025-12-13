@@ -1,21 +1,76 @@
-<!doctype html>
-<html>
-<head><title>Lookup</title></head>
-<body>
-  <h1>Find your certificate</h1>
-  <form method="get">
-    {{ form.as_p }}
-    <button type="submit">Search</button>
-  </form>
+{% extends "certificates/base.html" %}
+{% block title %}Find Certificate{% endblock title %}
 
-  {% if participant %}
-    <h2>Found: {{ participant.full_name }}</h2>
-    <p>Email: {{ participant.email }}</p>
-    <p>Hackathon: {{ participant.hackathon_name }}</p>
-    <p><a href="{% url 'certificates:download_certificate' participant.id %}">Download Certificate (PDF)</a></p>
-    <p>Or verify online: <a href="{% url 'certificates:verify_certificate' participant.verify_token %}">Verification Link</a></p>
-  {% elif form.is_bound %}
-    <p>No participant found. Please check details.</p>
-  {% endif %}
-</body>
-</html>
+{% block content %}
+<div class="bg-white rounded-2xl shadow-xl p-10 animate-fade-in">
+
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">
+        Find Your Certificate
+    </h1>
+
+    <form method="get" class="space-y-6">
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            <label for="{{ field.id_for_label }}"
+                   class="block text-sm font-medium text-gray-700 mb-1">
+                {{ field.label }}
+            </label>
+
+            {{ field }}
+
+            <style>
+                #{{ field.id_for_label }} {
+                    width: 100%;
+                    padding: 12px;
+                    border-radius: 0.75rem;
+                    border: 1px solid #d1d5db;
+                }
+                #{{ field.id_for_label }}:focus {
+                    border-color: #6366f1;
+                    outline: none;
+                }
+            </style>
+
+            {% for error in field.errors %}
+                <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit"
+                class="w-full py-3 rounded-xl
+                       bg-indigo-600 text-white font-semibold
+                       hover:bg-indigo-700 transition">
+            🔍 Search Certificate
+        </button>
+    </form>
+
+    {% if participant %}
+    <div class="mt-10 border-t pt-6 animate-fade-in">
+        <h2 class="text-2xl font-semibold text-emerald-600 mb-4">
+            Participant Found ✔
+        </h2>
+
+        <p><strong>Name:</strong> {{ participant.full_name }}</p>
+        <p><strong>Email:</strong> {{ participant.email }}</p>
+
+        <div class="mt-6 flex gap-4">
+            <a href="{% url 'certificates:download_certificate' participant.id %}"
+               class="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+                Download PDF
+            </a>
+
+            <a href="{% url 'certificates:verify_certificate' participant.verify_token %}"
+               class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                Verify Online
+            </a>
+        </div>
+    </div>
+    {% elif form.is_bound %}
+    <p class="mt-6 text-red-600 font-medium">
+        ❌ No participant found. Please check your details.
+    </p>
+    {% endif %}
+</div>
+{% endblock content %}

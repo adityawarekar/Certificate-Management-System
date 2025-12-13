@@ -8,5 +8,5 @@ urlpatterns = [
     path("lookup/", views.lookup_participant, name="lookup"),
     path("download/<uuid:participant_id>/", views.download_certificate, name="download_certificate"),
     path("verify/<uuid:token>/", views.verify_certificate, name="verify_certificate"),
-    # optional: login/logout if you add Django auth
+    
 ]

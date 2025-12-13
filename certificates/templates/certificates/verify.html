@@ -1,22 +1,54 @@
-<!doctype html>
-<html>
-<head><title>Verify Certificate</title></head>
-<body>
-  <h1>Certificate Verification</h1>
-  <h2>{{ participant.full_name }}</h2>
-  <p>Email: {{ participant.email }}</p>
-  <p>Hackathon: {{ participant.hackathon_name }}</p>
-  <p>Registered on: {{ participant.created_at }}</p>
+{% extends "certificates/base.html" %}
+{% block title %}Certificate Verification{% endblock title %}
 
-  <h3>Certificates Issued</h3>
-  {% if certs %}
-    <ul>
-    {% for c in certs %}
-      <li>{{ c.issued_at }} - {% if c.pdf_file %} <a href="{{ c.pdf_file.url }}">Download PDF</a> {% else %} Not available {% endif %}</li>
-    {% endfor %}
-    </ul>
-  {% else %}
-    <p>No certificate issued yet.</p>
-  {% endif %}
-</body>
-</html>
+{% block content %}
+<div class="bg-white rounded-2xl shadow-xl p-10 animate-fade-in">
+
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">
+        Certificate Verification
+    </h1>
+
+    <div class="bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
+        <p class="text-lg font-semibold text-green-700">
+            ✅ This certificate is valid and verified.
+        </p>
+    </div>
+
+    <div class="space-y-3 text-gray-800">
+        <p><strong>Name:</strong> {{ participant.full_name }}</p>
+        <p><strong>Email:</strong> {{ participant.email }}</p>
+        <p><strong>Hackathon:</strong> {{ participant.hackathon_name }}</p>
+        <p><strong>Participant ID:</strong> {{ participant.participant_id }}</p>
+        <p><strong>Registered On:</strong> {{ participant.created_at|date:"F d, Y" }}</p>
+        <p><strong>Issued On:</strong> {{ issue_date|date:"F d, Y" }}</p>
+
+    </div>
+
+    <div class="mt-8 border-t pt-6">
+        <h2 class="text-xl font-semibold mb-4">
+            Issued Certificates
+        </h2>
+
+        {% if certs %}
+            <ul class="space-y-3">
+            {% for c in certs %}
+                <li class="flex justify-between items-center p-4 bg-gray-50 rounded-lg border">
+                    <span>Issued on {{ c.issued_at|date:"M d, Y" }}</span>
+                    {% if c.pdf_file %}
+                        <a href="{{ c.pdf_file.url }}"
+                           class="text-indigo-600 font-medium hover:underline">
+                            Download PDF
+                        </a>
+                    {% else %}
+                        <span class="text-red-500 text-sm">File not available</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-gray-500">No certificate issued yet.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}
